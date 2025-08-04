@@ -15,6 +15,7 @@
       v-if="type === 'select'"
       :id="id"
       v-bind="{ ...controlAttrs, size, variant }"
+      v-model="modelValue"
     >
       <template #prefix v-if="$slots.prefix">
         <slot name="prefix" />
@@ -23,6 +24,7 @@
     <Autocomplete
       v-else-if="type === 'autocomplete'"
       v-bind="{ ...controlAttrs }"
+      v-model="modelValue"
     >
       <template #prefix v-if="$slots.prefix">
         <slot name="prefix" />
@@ -35,11 +37,13 @@
       v-else-if="type === 'textarea'"
       :id="id"
       v-bind="{ ...controlAttrs, size, variant }"
+      v-model="modelValue"
     />
     <TextInput
       v-else
       :id="id"
       v-bind="{ ...controlAttrs, type, size, variant, required }"
+      v-model="modelValue"
     >
       <template #prefix v-if="$slots.prefix">
         <slot name="prefix" />
@@ -56,6 +60,7 @@
     v-else
     :id="id"
     v-bind="{ ...controlAttrs, label, size, class: attrs.class }"
+    v-model="modelValue"
   />
 </template>
 <script setup lang="ts">
@@ -86,6 +91,16 @@ const controlAttrs = computed(() => {
     }
   }
   return _attrs
+})
+
+const emit = defineEmits(['update:modelValue'])
+const modelValue = computed({
+  get() {
+    return props.modelValue
+  },
+  set(value) {
+    emit('update:modelValue', value)
+  },
 })
 
 const descriptionClasses = computed(() => {

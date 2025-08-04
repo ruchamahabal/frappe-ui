@@ -7,4 +7,5 @@ export interface FormControlProps {
   size?: 'sm' | 'md'
   variant?: 'subtle' | 'outline'
   required?: boolean
+  modelValue?: any
 }
