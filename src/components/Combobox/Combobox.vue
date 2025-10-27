@@ -36,6 +36,7 @@ const props = defineProps<ComboboxProps>()
 const emit = defineEmits([
   'update:modelValue',
   'update:selectedOption',
+  'update:query',
   'focus',
   'blur',
 ])
@@ -238,6 +239,7 @@ const handleInputChange = (event: Event) => {
     internalModelValue.value = null
     emit('update:modelValue', null)
   }
+  emit('update:query', searchTerm.value)
 }
 
 const handleOpenChange = (open: boolean) => {
