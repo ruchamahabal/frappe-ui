@@ -4,12 +4,11 @@
       {{ props.label }}
       <span class="text-ink-red-3" v-if="required">*</span>
     </span>
-    <Autocomplete
-      ref="autocompleteRef"
-      size="sm"
+    <Combobox
       v-model="value"
       :placeholder="placeholder || `Select ${doctype}`"
       :options="options.data"
+      :openOnClick="true"
       @update:query="handleQueryUpdate"
     />
   </div>
@@ -17,24 +16,19 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-import { Autocomplete } from '../../src/components/Autocomplete'
+import { Combobox } from '../../src/components/Combobox'
 import debounce from '../../src/utils/debounce'
 // @ts-ignore - Vue SFC without explicit types
 import { createResource } from '../../src/resources'
 import type { LinkProps, SelectOption } from './types'
 
-const props = withDefaults(
-  defineProps<LinkProps>(),
-  {
-    label: '',
-    filters: () => ({}),
-    showFieldTitleAsOption: true,
-  },
-)
-
+const props = withDefaults(defineProps<LinkProps>(), {
+  label: '',
+  filters: () => ({}),
+  showFieldTitleAsOption: true,
+})
 const emit = defineEmits(['update:modelValue'])
 
-const autocompleteRef = ref<InstanceType<typeof Autocomplete> | null>(null)
 const searchText = ref<string>('')
 
 const value = computed({
