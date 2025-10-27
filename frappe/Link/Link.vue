@@ -1,9 +1,11 @@
 <template>
   <div class="flex flex-col gap-1.5">
-    <span v-if="props.label" class="block text-xs text-gray-600">
-      {{ props.label }}
-      <span class="text-ink-red-3" v-if="required">*</span>
-    </span>
+    <FormLabel
+      v-if="label"
+      :label="label"
+      size="sm"
+      :required="required"
+    />
     <Combobox
       v-model="value"
       :placeholder="placeholder || `Select ${doctype}`"
