@@ -25,7 +25,7 @@
               : 'py-3 border-b border-transparent hover:border-outline-gray-3',
           ]"
         >
-          <component v-if="tab.icon" :is="tab.icon" class="size-4" />
+          <FeatherIcon v-if="tab.icon" :name="tab.icon" class="size-4" />
           {{ tab.label }}
         </button>
       </slot>
@@ -40,6 +40,7 @@
 <script setup>
 import { TabList, Tab } from '@headlessui/vue'
 import { ref, watch, computed, onMounted, nextTick, inject } from 'vue'
+import FeatherIcon from '../FeatherIcon.vue'
 
 const t = inject('tab')
 
@@ -53,7 +54,8 @@ function moveIndicator(index) {
   if (index >= tabsLength.value) {
     index = tabsLength.value - 1
   }
-  const selectedTab = tabRef.value[index].el
+  const selectedTab = tabRef.value[index]?.el
+  if (!selectedTab) return
   if (t.value.vertical.value) {
     indicator.value.style.height = `${selectedTab.offsetHeight}px`
     indicator.value.style.top = `${selectedTab.offsetTop}px`
